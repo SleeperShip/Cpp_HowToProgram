@@ -1,8 +1,3 @@
-/*
-  Exercise 7.22 - C++ How to Program, 10th ed. by Deitel and Deitel
-  Knight's Tour program
-*/
-
 #include <iostream>
 #include <array>
 #include <iomanip>
@@ -18,17 +13,7 @@ bool isValidMove();
 array<int, 2> getLowestMove(int row, int column);
 
 const size_t SIZE = 8;
-array<array<int, SIZE>, SIZE> board{};
-array<array<int, SIZE>, SIZE> accessibilityRef
-                                            {2, 3, 4, 4, 4, 4, 3, 2,
-                                            3, 4, 6, 6, 6, 6, 4, 3,
-                                            4, 6, 8, 8, 8, 8, 6, 4,
-                                            4, 6, 8, 8, 8, 8, 6, 4,
-                                            4, 6, 8, 8, 8, 8, 6, 4,
-                                            4, 6, 8, 8, 8, 8, 6, 4,
-                                            3, 4, 6, 6, 6, 6, 4, 3,
-                                            2, 3, 4, 4, 4, 4, 3, 2};
-                                            
+array<array<int, SIZE>, SIZE> board{};                                            
 array<array<int, SIZE>, SIZE> accessibility{2, 3, 4, 4, 4, 4, 3, 2,
                                             3, 4, 6, 6, 6, 6, 4, 3,
                                             4, 6, 8, 8, 8, 8, 6, 4,
@@ -50,9 +35,14 @@ Starting tasks I need to accomplish:
 */
 
 int main() {
-  setStartingPosition(0,0);
-  cout << currentRow << " " << currentColumn << endl;
-  printBoard();
+  setStartingPosition(6,5);
+  array<int, 2> bestMove = getLowestMove(currentRow, currentColumn);
+  for(int i = 0; i < 2; ++i){
+      cout << bestMove[i] << " " << endl;
+  }
+  cout << "(starting)Current Row: "<< currentRow << endl; 
+  cout << "(starting)Current Column: " << currentColumn << endl;
+  //printBoard();
 }
 
 bool isValidPosition(int row, int column) {
@@ -62,27 +52,41 @@ bool isValidPosition(int row, int column) {
   return false;
 }
 
-array<int, 2> getLowestMove(int row, int column) {
+array<int, 2> getLowestMove(int row, int column) { //returns (row,column) with next best move/lowest accessibility score
     int counter = 0;
     int lowestScore = 100;
     int tempScore = 100;
     array<int, 2> bestMove{};
+    int tempRow = 0;
+    int tempColumn = 0;
     
     while(counter < 8) { //obtain lowest accessibility value
-        if(isValidPosition(row + vertical[counter], column + horizontal[counter])){
-            tempScore = accessibility[row + vertical[counter]][column + horizontal[counter]];
-            if(tempScore < lowestScore){
-                lowestScore = tempScore;
+        tempRow = row + vertical[counter];
+        tempColumn = column + horizontal[counter];
+            if(isValidPosition(tempRow, tempColumn) && accessibility[tempRow][tempColumn] != 100){
+                tempScore = accessibility[tempRow][tempColumn];
+                if(tempScore < lowestScore){
+                    lowestScore = tempScore;
+                }
             }
-        }
+        tempRow = 0;
+        tempColumn = 0;
+        counter++;
     }
     
     counter = 0;
+    tempRow = 0;
+    tempColumn = 0;
     while(counter < 8){ //obtain coordinates for lowest value
-        if(isValidPosition(row + vertical[counter], column + horizontal[counter]) && accessibility[row + vertical[counter]][column + horizontal[counter]] == lowestScore){
-            bestMove[0] = row + vertical[counter];
-            bestMove[1] = column + horizontal[counter];
+        tempRow = row + vertical[counter];
+        tempColumn = column + horizontal[counter];
+        if(isValidPosition(tempRow, tempColumn) && accessibility[tempRow][tempColumn] == lowestScore){
+            bestMove[0] = tempRow;
+            bestMove[1] = tempColumn;
         }
+        tempRow = 0;
+        tempColumn = 0;
+        counter++;
     }
     return bestMove;
 }
