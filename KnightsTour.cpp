@@ -1,6 +1,5 @@
 #include <iostream>
 #include <array>
-#include <iomanip>
 #include <cstdlib>
 
 using namespace std;
