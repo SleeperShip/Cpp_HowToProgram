@@ -35,18 +35,9 @@ int currentRow = -1;
 int currentColumn = -1;
 int moveNumber = 0;
 
-/*
-Starting tasks I need to accomplish:
--move king around, check for not exceeding boundaries, check for valid move
-*/
-
 int main() {
   setStartingPosition(0,0);
   accessibility[currentRow][currentColumn] == 100;
-  //array<int, 2> bestMove = getLowestMove(currentRow, currentColumn);
-  //for(int i = 0; i < 2; ++i){
-      //cout << bestMove[i] << " " << endl;
-  //}
   cout << "(starting)Current Row: "<< currentRow << endl; 
   cout << "(starting)Current Column: " << currentColumn << endl;
   moveKnight();
@@ -97,43 +88,6 @@ array<int, 2> getLowestMove(int row, int column) { //returns (row,column) with n
         counter++;
     }
     return bestMove;
-}
-
-bool validMovesRemaining(int row, int column) {
-    int tempRow = 0;
-    int tempColumn = 0;
-    int counter = 0;
-    while(counter < 8){
-        tempRow = row + vertical[counter];
-        tempColumn = column + horizontal[counter];
-        if(isValidPosition(tempRow, tempColumn)){
-            return true;
-        }
-        tempRow = 0;
-        tempColumn = 0;
-        counter++;
-    }
-    return false;
-}
-
-bool findValue(int val) {
-    for(size_t rows = 0; rows < SIZE; ++rows){
-        for(size_t columns = 0; columns < SIZE; ++columns){
-            if(board[rows][columns] == val){
-                return true;
-            }  
-    }
-  }
-  return false;
-}
-
-bool tourComplete(int row, int column) {
-    if(validMovesRemaining(row, column) == false && findValue(63) == true){
-        return true;
-    }else{
-        cout << "Didn't make it. Here's how far the knight got: " << endl;
-        printBoard();
-    }
 }
 
 void moveKnight() {
